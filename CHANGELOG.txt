@@ -1,0 +1,364 @@
+================================================================================
+  ORBITFM — VERSION HISTORY
+================================================================================
+
+Executables are stored as vX.exe in this folder alongside the source.
+Each version is a snapshot of filemanager.cpp compiled with build.bat.
+
+--------------------------------------------------------------------------------
+v1.0  "Genesis"          — Apr 28, 08:14   (v1.0-Genesis.exe, 1.17 MB)
+--------------------------------------------------------------------------------
+  Initial working build. Pure Win32, no external libraries.
+
+  Core features present at baseline:
+  • Dual-pane layout (side-by-side file browser)
+  • Tab bar per pane (Ctrl+T new tab, Ctrl+W close)
+  • Breadcrumb address bar (click segment to navigate)
+  • File list: Name, Size, Date Modified, Type columns
+  • Column sort (click header, Ctrl+1-4)
+  • Shell context menu on right-click (WinRAR, 7-Zip, Open With, etc.)
+  • File operations: Copy/Cut/Paste/Delete/Rename/New Folder
+  • Drag-and-drop between panes
+  • System file icons (shell image list)
+  • Preview pane (text files, metadata, image thumbnails)
+  • Pinned sidebar shortcuts
+  • Show/hide hidden files (Ctrl+H)
+  • Properties dialog (shell)
+  • In-place rename (F2)
+  • Right-click speed fix:
+      - Replaced CMF_EXPLORE with CMF_ASYNCVERBSTATE
+      - Used ILClone + ILRemoveLastID to avoid second ParseDisplayName call
+      - Skip RefreshPane when no command was invoked
+
+--------------------------------------------------------------------------------
+v2.0  "Scaffold"         — Apr 28, 16:04   (v2.0-Scaffold.exe, 1.18 MB)
+--------------------------------------------------------------------------------
+  Build error fixes + first round of feature groundwork.
+
+  Changes:
+  • Fixed forward-declaration ordering (DrawToolbar, StartFolderSizeForSelection
+    moved to after their dependencies)
+  • Fixed lambda GWLP_WNDPROC cast — replaced with named BulkRenameWndProc
+  • Structural prep for 9-feature tranche (new structs, IDs, WM_APP messages)
+
+--------------------------------------------------------------------------------
+v3.0  "Foundation"       — Apr 28, 16:30   (v3.0-Foundation.exe, 1.24 MB)
+--------------------------------------------------------------------------------
+  9-feature expansion — all compiled and working.
+
+  New features:
+  • Dark / Light theme toggle (Ctrl+D) — dark base color #575050
+  • Back / Forward / Up navigation history per tab (‹ › ↑ toolbar buttons)
+  • Status bar — shows item count + total selection size
+  • Resizable splitters — drag sidebar/preview dividers with mouse
+  • In-folder search bar — live filter as you type (Ctrl+F to focus)
+  • Recent files section in sidebar — last 10 accessed items
+  • Bulk rename dialog — find/replace + optional auto-numbering
+  • Folder size scanner — recursive scan with live progress (Ctrl+Shift+S)
+  • MD5 / SHA256 hash viewer — shown in preview pane for selected file
+
+  New keyboard shortcuts:
+    Ctrl+D          Toggle dark/light theme
+    Ctrl+F          Focus search bar
+    Ctrl+Shift+S    Scan folder size
+
+--------------------------------------------------------------------------------
+v4.0  "Obsidian"         — Apr 29, 01:20   (v4.0-Obsidian.exe, 1.24 MB)
+--------------------------------------------------------------------------------
+  Full dark-mode-only overhaul + single-pane default + visual redesign.
+
+  Changes:
+  • Always dark — light mode removed; color #575050 hardcoded as base
+  • Added accent color COL_ACCENT = #4A9ED4 (blue)
+  • Added COL_SIDEBAR = #3E3838 (darker sidebar background)
+  • Improved dark palette: blue selection, richer borders, better contrast
+  • Start-up shows ONE pane only (not two side-by-side)
+  • F3 toggles dual-pane mode on/off
+  • Tab bar redesign:
+      - 3px colored accent line on top of active tab
+      - Inactive tabs darker (COL_HEADER background)
+      - × close button always visible (not just when > 1 tab)
+      - Closing last tab in pane 2 hides pane 2
+      - Closing last tab in pane 1 resets it to Desktop
+  • Breadcrumb redesign:
+      - COL_BG_ALT background (distinct from pane)
+      - Last segment bright white; ancestors dimmed
+      - › separator instead of >
+  • Toolbar buttons use ‹ › ↑ Unicode glyphs
+  • Toolbar buttons: border only on hover, no border when idle
+  • Sidebar section headers use COL_ACCENT color
+  • Sidebar hover shows left-edge accent bar
+  • Font size bumped to 10pt
+  • Tab height 30px, toolbar height 32px, sidebar row 26px
+
+  New keyboard shortcuts:
+    F3              Toggle dual-pane mode
+
+--------------------------------------------------------------------------------
+v5.0  "Arsenal"          — Apr 29, 01:43   (v5.0-Arsenal.exe, 1.35 MB)
+--------------------------------------------------------------------------------
+  Massive feature expansion — 27 new features added.
+
+  New features:
+  • Auto-refresh — watches folder with FindFirstChangeNotification;
+      updates list automatically when files change externally
+  • Keyboard jump — type any character in list to jump to matching filename
+  • Select by pattern — glob filter e.g. *.log (right-click or Ctrl+P)
+  • Invert selection — flip current selection state
+  • Copy path — right-click submenu: Full Path / Filename / Directory
+  • Folder bookmarks — Ctrl+Shift+1-9 sets, Ctrl+5-9 jumps; saved to settings
+  • Undo — Ctrl+Z reverses move/copy/rename/new-folder operations
+  • Built-in ZIP — right-click → Zip Selected (uses PowerShell Compress-Archive)
+  • File split — split file into .part001, .part002 … chunks
+  • File join — concatenate .partXXX files back into original
+  • Multi-clipboard history — tracks last 8 copy/cut ops; Ctrl+Shift+V to pick
+  • Session restore — open tabs and paths saved on exit, restored on start
+  • Color labels — right-click → Tag Color; row background tinted
+  • Git status indicators — runs git status --porcelain in background;
+      badges M/A/U/? overlaid on file names; Ctrl+Shift+G to refresh
+  • Hex view toggle — Ctrl+Shift+H (hook in preview pane)
+  • File diff viewer — compare two selected text files line-by-line
+  • Folder diff — compare two directories: added / removed / modified
+  • Command palette — Ctrl+P floating overlay; 39 commands with substring filter
+  • Quick open (fuzzy) — Ctrl+K; recursive filename search under current folder
+  • Duplicate file finder — groups files by size+MD5; dialog to delete dupes
+  • Process lock inspector — detects locked files; offers Task Manager
+  • Grid / icon view — Ctrl+G switches between Details and large-icon grid
+  • Open terminal — right-click → Open Terminal (Windows Terminal or cmd.exe)
+  • Custom file associations — stored in settings, override default app per ext
+  • Network share browser — right-click → Connect to Network Share (UNC path)
+  • Settings dialog — font size, sidebar/preview widths, start path,
+      show hidden default, auto-refresh toggle, 5 bookmarks
+  • Settings persistence — all settings saved to
+      %APPDATA%\OrbitFM\settings.ini on Save
+
+  New keyboard shortcuts:
+    Ctrl+Z          Undo last file operation
+    Ctrl+P          Command palette
+    Ctrl+K          Quick open (fuzzy file search)
+    Ctrl+G          Toggle grid/icon view
+    Ctrl+Shift+V    Clipboard history picker
+    Ctrl+Shift+H    Toggle hex view in preview
+    Ctrl+Shift+G    Refresh git status
+    Ctrl+Shift+1-9  Set bookmark
+    Ctrl+5-9        Jump to bookmark
+
+--------------------------------------------------------------------------------
+v6.0  "Reflex"           — Apr 29, 01:48   (v6.0-Reflex.exe, 1.35 MB)
+--------------------------------------------------------------------------------
+  Right-click speed overhaul — instant menus, no more loading spinner.
+
+  Changes:
+  • DEFAULT right-click now shows our fast custom menu (zero shell loading)
+  • SHIFT+right-click opens shell context menu (WinRAR, antivirus, etc.)
+  • "More options (Shell)" item at bottom of fast menu for on-demand access
+  • "Open With..." added to fast menu for non-folder files
+  • PIDL setup replaced: SHBindToParent() replaces manual
+      ILClone + ILRemoveLastID + BindToObject (fewer COM round-trips)
+  • CMF_OPTIMIZEFORINVOKE (0x800) added alongside CMF_ASYNCVERBSTATE
+      — tells shell extensions to skip expensive pre-population
+  • IDM_OPEN_WITH and IDM_SHELL_MENU added to command enum
+  • "Open With..." wired to ShellExecuteW "openwith" verb
+
+--------------------------------------------------------------------------------
+v7.0  "Helm"             — Apr 29, 01:50   (v7.0-Helm.exe, 1.35 MB)
+--------------------------------------------------------------------------------
+  Settings button in toolbar — visible, clickable, toggleable.
+
+  Changes:
+  • ⚙ gear button added RIGHT-ALIGNED in every pane's toolbar
+  • Click once  → opens Settings dialog
+  • Click again → closes Settings dialog (toggle)
+  • Gear button glows blue (COL_ACCENT) while Settings is open
+  • g.hwndSettings tracks the dialog HWND; IsWindow() check prevents doubles
+  • WM_DESTROY in settings clears g.hwndSettings + repaints toolbars
+  • ShowSettingsDialog() brings existing window to front if somehow open
+  • Settings dialog height increased to 560px to accommodate more controls
+  • OK button renamed "Save" for clarity
+  • Search box repositioned to leave room for right-aligned gear button
+
+--------------------------------------------------------------------------------
+v8.0                      — Apr 29   (v8.0.exe, 1.40 MB)
+--------------------------------------------------------------------------------
+  Major feature expansion — async loading, improved sidebar, OLE drag, and more.
+
+  New features:
+  • Async folder enumeration — folder loads on background thread; UI stays
+      responsive on huge directories; serial token discards stale results
+  • Text file preview — Consolas monospace rendering of first 16 KB in preview
+      pane for .txt .md .log .json .py .cpp .h .ts .js .bat .sh etc.
+  • Git status file coloring — modified (yellow), staged (green), untracked
+      (cyan); colors applied per-file in NM_CUSTOMDRAW without blocking UI
+  • THIS PC sidebar section — shows OneDrive folder (auto-detected via env var)
+      plus all fixed/removable/network drives; click to navigate active pane
+  • OLE drag source — dragging files from OrbitFM to Windows Explorer,
+      desktop, or any IDropTarget-aware app now works (CF_HDROP via DoDragDrop)
+  • Recursive background search — typing 2+ chars in search bar kicks off a
+      background directory walk posting results in batches of 50; Esc or
+      navigation cancels; immediate filter still applies to current-dir entries
+  • Monospace font (Consolas 9pt) created at startup for text preview rendering
+
+  Fixes / polish:
+  • Drive enumeration at startup (GetLogicalDriveStringsW) — all drive types shown
+  • OneDrive path read from %OneDrive% / %OneDriveConsumer% environment variables
+  • hFontMono cleaned up on exit alongside hFont / hFontBold
+
+--------------------------------------------------------------------------------
+v8.1                      — Apr 29   (v8.1.exe, ~1.44 MB)
+--------------------------------------------------------------------------------
+  6-feature improvement pass.
+
+  New features:
+  • Sort arrows in column headers — click Name/Size/Type/Date Modified to sort
+      asc/desc; up/down arrow drawn in header via HDF_SORTUP/HDF_SORTDOWN;
+      sort options removed from right-click menu (headers are the UI)
+  • Native ZIP compression engine — pure C++ PKZIP store-mode implementation;
+      right-click → "Compress to .zip" creates a real ZIP with correct local
+      file headers, central directory, and EOCD record; CRC-32 computed in-app
+  • Native ZIP extraction engine — right-click .zip → "Extract Here" or
+      "Extract to Folder..."; reads EOCD, walks central directory, recreates
+      directory tree and file data; no PowerShell, no shell COM required
+  • Redesigned Settings dialog — 140px left-nav panel (Appearance / Layout /
+      Behavior / Bookmarks); right panel shows only the active page; accent-
+      colored section headers; owner-drawn nav buttons with active indicator;
+      footer Save/Cancel buttons match app style throughout
+  • Tab tear-off — drag a tab outside the pane window; cursor changes to
+      SIZEALL; releasing fires ShellExecute explore on the tab's path in
+      Explorer (single-process limitation); visual tear indicator while dragging
+  • Background search improvements — recursive search stops cleanly on
+      navigation and on app exit; searchBgThread is joined at shutdown
+  • General leak / thread fixes:
+      - searchBgThread joined at wWinMain exit (was detached, could fire
+        PostMessageW to a destroyed HWND)
+      - dupeThread running flag cleared at exit
+      - All FindFirstFile/FindClose pairs verified balanced
+      - Static brushes for WM_CTLCOLOR are correct (Windows owns lifetime)
+      - StopWatchThreads sets watchStop flag; threads exit within 400ms poll
+
+--------------------------------------------------------------------------------
+v8.1.1                    — Apr 29   (v8.1.1.exe, ~1.44 MB)
+--------------------------------------------------------------------------------
+  Bug fixes.
+
+  Fixes:
+  • Ctrl+P command palette — fixed immediate-close bug caused by ID_PAL_LIST+1
+      colliding with ID_PAL_OK (both = 2009); edit box now uses ID_PAL_EDIT 2028;
+      WM_COMMAND check changed to require BN_CLICKED before invoking PalExecute;
+      SetWindowLongPtrW now called before ShowWindow so early messages are routed
+      correctly
+  • RAR extraction — right-click .rar → "Extract RAR Here" / "Extract RAR to
+      Folder..."; detects WinRAR.exe / Rar.exe / 7z.exe in standard Program Files
+      paths; runs extraction silently via CreateProcess; shows friendly error if
+      neither tool is installed
+
+--------------------------------------------------------------------------------
+v8.1.2                    — Apr 29   (v8.1.2.exe, ~1.44 MB)
+--------------------------------------------------------------------------------
+  Bug fix.
+
+  Fix:
+  • Settings dialog page-switching — all section headers and sub-labels were
+      permanently visible because mkLbl used nullptr as HMENU (id=0), causing
+      ShowPage to skip them; each label now has a unique ID in the 3000-3019
+      range; ShowPage ranges updated to cover label IDs per page; pages 1-3
+      labels created hidden (no WS_VISIBLE) and shown only when their page
+      is active
+
+--------------------------------------------------------------------------------
+v8.2                      — Apr 30   (v8.2.exe, ~1.45 MB)
+--------------------------------------------------------------------------------
+  UI polish pass.
+
+  New:
+  • GDI toolbar icons — back/forward/up buttons now drawn as filled triangles
+      using Polygon(); settings button drawn as an 8-tooth gear using Polygon()
+      + center circle cutout; no more Unicode glyph fallback
+  • Sidebar mini-icons — each entry type gets a distinct drawn icon:
+      pinned folders → mini folder shape (tab + body); recent files → mini clock
+      (circle + hour/minute hands); drives → mini drive (rounded rect + lines);
+      OneDrive → mini cloud (3 overlapping circles); text shifted right to 22px
+  • Folder fade-in animation — when navigating to a folder, the file list fades
+      in from transparent to opaque over ~120ms using WS_EX_LAYERED +
+      SetLayeredWindowAttributes + WM_TIMER (12ms ticks, alpha +50 per tick);
+      layered style removed once fully opaque to restore normal rendering
+  • Smooth momentum scrolling — WM_MOUSEWHEEL intercepted in ListSubclass;
+      scroll velocity accumulated, decayed by 0.78× per 8ms timer tick;
+      ListView_Scroll called each tick for silky deceleration instead of
+      the default 3-line jump
+
+--------------------------------------------------------------------------------
+v8.3                      — Apr 30   (v8.3.exe, ~1.45 MB)
+--------------------------------------------------------------------------------
+  Animation polish pass.
+
+  New:
+  • Toolbar button hover glow — each button smoothly fades in/out a highlight
+      color on mouse enter/leave using per-button tbHoverProg[i] floats animated
+      at 16ms ticks (TIMER_ANIM)
+  • Loading spinner — 8 rotating dots drawn in the toolbar corner while async
+      folder enumeration is in progress; dot brightness animated via LerpColor
+  • Active pane pulse — 2px top border on the active pane pulses using
+      sin(GetTickCount()/380) for a subtle breathing glow (TIMER_PULSE)
+  • Sidebar smooth hover — row highlight cross-fades between entries using dual
+      prev/current progress floats; LerpColor blends COL_SIDEBAR → COL_HOVER
+      at 18% per tick (TIMER_SIDEBAR); covers pinned, recent, OneDrive, drives
+
+--------------------------------------------------------------------------------
+v8.4                      — Apr 30   (v8.4.exe, ~1.47 MB)
+--------------------------------------------------------------------------------
+  Home view — Quick Access, Recent, This PC.
+
+  New:
+  • Home view — clicking "Home" in sidebar (or pressing Alt+Home) shows a
+      dashboard page instead of a file list; completely replaces the listview
+      with a custom-drawn full-pane page
+  • Quick Access section — 160×70 tiles for Desktop, Downloads, Documents,
+      Pictures, Music, Videos, plus any pinned folders; hover highlight on tiles
+  • Recent section — last 12 accessed files shown as a list with filename
+      (white) and parent path (dimmed); click navigates to parent folder
+  • This PC section — drive tiles with live used/free space bar; turns red
+      when >90% full; shows "X GB free of Y GB" label
+  • Sidebar "Home" button — always at top, accent color when active pane is
+      on Home view; left-edge accent bar indicator
+  • DrawMiniHome icon — house shape (roof triangle + body + door cutout)
+  • Back/Forward navigation through Home — ::home:: is pushed to tab history
+      so Alt+Left/Right navigate in/out of home as expected
+
+  New keyboard shortcuts:
+    Alt+Home        Navigate active pane to Home view
+
+--------------------------------------------------------------------------------
+v8.4.1                    — Apr 30   (v8.4.1.exe, ~1.47 MB)
+--------------------------------------------------------------------------------
+  Bug fixes for Home view.
+
+  Fixes:
+  • Search bar hidden in Home mode — DrawToolbar now calls ShowWindow(SW_HIDE)
+      on hwndSearch when the active tab is ::home::, so it no longer floats
+      over the home page
+  • Listview resize regression — RefreshPane now calls MoveWindow before
+      ShowWindow when leaving Home mode, so the list fills the correct area
+      after any window resize that happened while on the home page
+
+================================================================================
+  BUILD INSTRUCTIONS
+================================================================================
+
+  Requirements:
+    - TDM-GCC 10.3.0 (or any MinGW-w64 g++ with C++17 support)
+    - Windows 7 or later
+
+  Build:
+    Double-click build.bat
+    — or —
+    g++ -std=c++17 -O2 -municode -mwindows -DUNICODE -D_UNICODE ^
+        filemanager.cpp -o filemanager.exe ^
+        -lcomctl32 -lshell32 -lshlwapi -lole32 -loleaut32 -luuid ^
+        -lpropsys -luxtheme -lgdi32 -luser32
+
+  To save a version snapshot after a successful build:
+    move /y filemanager_new.exe filemanager.exe
+    copy filemanager.exe v8.0.exe
+    Then update CHANGELOG.txt with the new version entry.
+
+================================================================================
