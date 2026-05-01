@@ -1,2 +1,2 @@
 # OrbitFM
-OrbitFM is a file manager open source
+OrbitFM is a file manager source-available
